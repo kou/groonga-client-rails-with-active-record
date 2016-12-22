@@ -26,6 +26,7 @@ class DocumentsController < ApplicationController
                      ]).
       drilldowns("tag").keys("tags").
       drilldowns("tag").sort_keys("-_nsubrecs").
+      paginate(params[:page]).
       result_set
   end
 
