@@ -2,6 +2,13 @@
 
 <h1>Documents</h1>
 
+<p><%= @result_set.n_hits %> records</p>
+
+<%= form_tag(documents_path, method: "get") do %>
+  <%= search_field_tag "query", @query %>
+  <%= submit_tag "Search" %>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -12,7 +19,8 @@
   </thead>
 
   <tbody>
-    <% @documents.each do |document| %>
+    <% @result_set.records.each do |record| %>
+      <% document = record.source %>
       <tr>
         <td><%= document.title %></td>
         <td><%= document.content %></td>

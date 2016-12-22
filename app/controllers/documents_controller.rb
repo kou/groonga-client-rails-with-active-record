@@ -4,7 +4,11 @@ class DocumentsController < ApplicationController
   # GET /documents
   # GET /documents.json
   def index
-    @documents = Document.all
+    @query = params[:query]
+    searcher = DocumentsSearcher.new
+    @result_set = searcher.search.
+      query(@query).
+      result_set
   end
 
   # GET /documents/1
