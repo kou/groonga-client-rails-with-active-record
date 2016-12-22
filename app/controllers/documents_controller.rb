@@ -8,7 +8,12 @@ class DocumentsController < ApplicationController
     @tag = params[:tag]
 
     searcher = DocumentsSearcher.new
-    request = searcher.search.query(@query)
+    request = searcher.search
+    if @query.present?
+      request = request.
+        query(@query).
+        sort_keys("-_score")
+    end
     if @tag.present?
       request = request.filter("tags @ %{tag}", tag: @tag)
     end
