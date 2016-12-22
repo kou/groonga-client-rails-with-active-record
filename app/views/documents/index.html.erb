@@ -34,8 +34,16 @@
     <% @result_set.records.each do |record| %>
       <% document = record.source %>
       <tr>
-        <td><%= document.title %></td>
-        <td><%= document.content %></td>
+        <td><%= record.highlight_html.html_safe %></td>
+        <td>
+          <% if record.snippet_html.present? %>
+            <% record.snippet_html.each do |chunk| %>
+              <div>...<%= chunk.html_safe %>...</div>
+            <% end %>
+          <% else %>
+            <%= document.content %>
+          <% end %>
+        </td>
         <td>
           <ul>
           <% record.tags.each do |tag| %>

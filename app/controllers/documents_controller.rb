@@ -13,6 +13,12 @@ class DocumentsController < ApplicationController
       request = request.filter("tags @ %{tag}", tag: @tag)
     end
     @result_set = request.
+      output_columns([
+                       "_key",
+                       "*",
+                       "highlight_html(title)",
+                       "snippet_html(content)",
+                     ]).
       drilldowns("tag").keys("tags").
       drilldowns("tag").sort_keys("-_nsubrecs").
       result_set
