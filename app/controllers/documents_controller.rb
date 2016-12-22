@@ -5,9 +5,16 @@ class DocumentsController < ApplicationController
   # GET /documents.json
   def index
     @query = params[:query]
+    @tag = params[:tag]
+
     searcher = DocumentsSearcher.new
-    @result_set = searcher.search.
-      query(@query).
+    request = searcher.search.query(@query)
+    if @tag.present?
+      request = request.filter("tags @ %{tag}", tag: @tag)
+    end
+    @result_set = request.
+      drilldowns("tag").keys("tags").
+      drilldowns("tag").sort_keys("-_nsubrecs").
       result_set
   end
 
