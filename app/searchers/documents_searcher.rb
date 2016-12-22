@@ -9,4 +9,11 @@ class DocumentsSearcher < ApplicationSearcher
     index: true,
     index_type: :full_text_search,
   }
+  schema.column :tags, {
+    type: "ShortText",
+    reference: true,
+    normalizer: false,
+    vector: true,
+    index: true,
+  }
 end
